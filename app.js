@@ -5,6 +5,7 @@ const dotenv = require('dotenv')
 const app = express()
 const ProjectController = require('./routes/ProjectController')
 const TaskController = require('./routes/TaskController')
+const AuthenticationController = require('./routes/AuthenticationController')
 
 app.use(bodyParser.json());
 
@@ -29,6 +30,7 @@ app.post('/task/:id', TaskController.update)
 app.get('/task/:id/delete', TaskController.remove)
 app.post('/task/search/:page', TaskController.search)
 
+app.post('/login', AuthenticationController.login)
 
 app.listen(port, () => {
     console.log(`listening at http://localhost:${port}`)
