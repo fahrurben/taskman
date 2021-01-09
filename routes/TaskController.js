@@ -7,7 +7,7 @@ const get = async function (req, res) {
         let task = await Task.findOne({_id: id}).exec()
         res.send(task)
     } catch (e) {
-        res.status(500).send(e)
+        res.status(500).send({message: e.toString()})
     }
 }
 
@@ -28,7 +28,7 @@ const create = async function (req, res) {
         await task.save()
         res.send({status: 'success', id: task.id})
     } catch (e) {
-        res.status(500).send(e)
+        res.status(500).send({message: e.toString()})
     }
 }
 
@@ -49,7 +49,7 @@ const update = async function (req, res) {
         await task.save()
         res.send({status: 'success'})
     } catch (e) {
-        res.status(500).send(e)
+        res.status(500).send({message: e.toString()})
     }
 }
 
@@ -60,7 +60,7 @@ const remove = async function (req, res) {
         await Task.findByIdAndDelete(id).exec()
         res.send({status: 'success'})
     } catch (e) {
-        res.status(500).send(e)
+        res.status(500).send({message: e.toString()})
     }
 }
 
@@ -98,7 +98,7 @@ const search = async function (req, res) {
             data: tasks
         })
     } catch (e) {
-        res.status(500).send(e)
+        res.status(500).send({message: e.toString()})
     }
 }
 

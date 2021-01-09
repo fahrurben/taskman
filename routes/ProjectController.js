@@ -6,7 +6,7 @@ const get = async function (req, res) {
         let project = await Project.findOne({_id: id}).exec()
         res.send(project)
     } catch (e) {
-        res.status(500).send(e)
+        res.status(500).send({message: e.toString()})
     }
 }
 
@@ -18,7 +18,7 @@ const create = async function (req, res) {
         await project.save()
         res.send({status: 'success', id: project.id})
     } catch (e) {
-        res.status(500).send(e)
+        res.status(500).send({message: e.toString()})
     }
 }
 
@@ -34,7 +34,7 @@ const update = async function (req, res) {
         await project.save()
         res.send({status: 'success'})
     } catch (e) {
-        res.status(500).send(e)
+        res.status(500).send({message: e.toString()})
     }
 }
 
@@ -45,7 +45,7 @@ const remove = async function (req, res) {
         await Project.findByIdAndDelete(id).exec()
         res.send({status: 'success'})
     } catch (e) {
-        res.status(500).send(e)
+        res.status(500).send({message: e.toString()})
     }
 }
 
@@ -71,7 +71,7 @@ const search = async function (req, res) {
             data: projects
         })
     } catch (e) {
-        res.status(500).send(e)
+        res.status(500).send({message: e.toString()})
     }
 }
 
