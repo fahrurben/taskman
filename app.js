@@ -31,6 +31,7 @@ app.get('/task/:id/delete', TaskController.remove)
 app.post('/task/search/:page', TaskController.search)
 
 app.post('/login', AuthenticationController.login)
+app.post('/register', AuthenticationController.register)
 
 app.listen(port, () => {
     console.log(`listening at http://localhost:${port}`)
