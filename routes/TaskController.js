@@ -64,4 +64,42 @@ const remove = async function (req, res) {
     }
 }
 
-module.exports = {get, create, update, remove}
+const search = async function (req, res) {
+    const {no, title, priority, status} = req.body
+    let page = req.params.page - 1,
+        perPage = 10
+
+    try {
+        let query = {}
+        if (no !== undefined && no !== '') {
+            query.no = {$regex: new RegExp("^" + no, "i")}
+        }
+
+        if (title !== undefined && title !== '') {
+            query.title = {$regex: new RegExp("^" + title, "i")}
+        }
+
+        if (priority !== undefined && priority !== '') {
+            query.priority = {$eq: priority}
+        }
+
+        if (status !== undefined && status !== '') {
+            query.status = {$eq: status}
+        }
+
+        let tasks = await Task.find(query).skip(perPage * page).limit(perPage).sort('no').exec()
+
+        let totalTasks = await Task.find(query).countDocuments().exec()
+        let totalPage = Math.ceil(totalTasks / perPage)
+
+        res.send({
+            page: req.params.page,
+            totalPage: totalPage,
+            data: tasks
+        })
+    } catch (e) {
+        res.status(500).send(e)
+    }
+}
+
+module.exports = {get, create, update, remove, search}

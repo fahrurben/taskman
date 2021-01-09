@@ -49,4 +49,30 @@ const remove = async function (req, res) {
     }
 }
 
-module.exports = {get, create, update, remove}
+const search = async function (req, res) {
+    const {name} = req.body
+    let page = req.params.page - 1,
+        perPage = 10
+
+    try {
+        let query = {}
+        if (name !== undefined && name !== '') {
+            query.name = {$regex: new RegExp("^" + name, "i")}
+        }
+
+        let projects = await Project.find(query).skip(perPage * page).limit(perPage).sort('name').exec()
+
+        let totalProjects = await Project.find(query).countDocuments().exec()
+        let totalPage = Math.ceil(totalProjects / perPage)
+
+        res.send({
+            page: req.params.page,
+            totalPage: totalPage,
+            data: projects
+        })
+    } catch (e) {
+        res.status(500).send(e)
+    }
+}
+
+module.exports = {get, create, update, remove, search}

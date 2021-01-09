@@ -21,11 +21,14 @@ app.get('/project/:id', ProjectController.get)
 app.post('/project', ProjectController.create)
 app.post('/project/:id', ProjectController.update)
 app.get('/project/:id/delete', ProjectController.remove)
+app.post('/project/search/:page', ProjectController.search)
 
 app.get('/task/:id', TaskController.get)
 app.post('/task', TaskController.create)
 app.post('/task/:id', TaskController.update)
 app.get('/task/:id/delete', TaskController.remove)
+app.post('/task/search/:page', TaskController.search)
+
 
 app.listen(port, () => {
     console.log(`listening at http://localhost:${port}`)
