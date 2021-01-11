@@ -36,7 +36,7 @@ const register = async function (req, res) {
             throw new Error('User already registered')
         }
 
-        let user = new User({email, password: hashedPassword, firstName, lastName})
+        let user = new User({email, password: hashedPassword, firstName, lastName, isActive: false})
 
         await user.save()
         res.send({status: 'success', id: user.id})

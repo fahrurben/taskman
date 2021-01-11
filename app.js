@@ -6,6 +6,7 @@ const app = express()
 const ProjectController = require('./routes/ProjectController')
 const TaskController = require('./routes/TaskController')
 const AuthenticationController = require('./routes/AuthenticationController')
+const UserController = require('./routes/UserController')
 
 app.use(bodyParser.json());
 
@@ -29,6 +30,11 @@ app.post('/task', TaskController.create)
 app.post('/task/:id', TaskController.update)
 app.get('/task/:id/delete', TaskController.remove)
 app.post('/task/search/:page', TaskController.search)
+
+app.get('/user/:id', UserController.get)
+app.post('/user/:id', UserController.update)
+app.get('/user/:id/delete', UserController.remove)
+app.post('/user/search/:page', UserController.search)
 
 app.post('/login', AuthenticationController.login)
 app.post('/register', AuthenticationController.register)
