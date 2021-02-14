@@ -12,7 +12,9 @@ const UserController = require('./routes/UserController')
 app.use(bodyParser.json());
 app.use(cors())
 
-dotenv.config()
+if (process.env.NODE_ENV !== 'production') {
+    dotenv.config()
+}
 const port = process.env.PORT
 
 mongoose.connect(process.env.DB_URL, {
