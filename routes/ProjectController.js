@@ -10,6 +10,21 @@ const get = async function (req, res) {
     }
 }
 
+const getAll = async function (req, res) {
+    try {
+        let query = {}
+
+        let projects = await Project.find(query).sort({
+            name: 'asc',
+            _id: 'asc'
+        }).exec()
+
+        res.send(projects)
+    } catch (e) {
+        res.status(500).send({message: e.toString()})
+    }
+}
+
 const create = async function (req, res) {
     const {name, desc} = req.body
     let project = new Project({name, desc, createdAt: new Date})
@@ -52,7 +67,7 @@ const remove = async function (req, res) {
 const search = async function (req, res) {
     const {name} = req.body
     let page = req.params.page - 1,
-        perPage = 10
+        perPage = 5
 
     try {
         let query = {}
@@ -60,7 +75,11 @@ const search = async function (req, res) {
             query.name = {$regex: new RegExp("^" + name, "i")}
         }
 
-        let projects = await Project.find(query).skip(perPage * page).limit(perPage).sort('name').exec()
+        let skip = perPage * page
+        let projects = await Project.find(query).sort({
+            name: 'asc',
+            _id: 'asc'
+        }).skip(skip).limit(perPage).exec()
 
         let totalProjects = await Project.find(query).countDocuments().exec()
         let totalPage = Math.ceil(totalProjects / perPage)
@@ -75,4 +94,4 @@ const search = async function (req, res) {
     }
 }
 
-module.exports = {get, create, update, remove, search}
+module.exports = {get, getAll, create, update, remove, search}

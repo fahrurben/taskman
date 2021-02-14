@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
@@ -9,6 +10,7 @@ const AuthenticationController = require('./routes/AuthenticationController')
 const UserController = require('./routes/UserController')
 
 app.use(bodyParser.json());
+app.use(cors())
 
 dotenv.config()
 const port = process.env.PORT
@@ -20,6 +22,7 @@ mongoose.connect(process.env.DB_URL, {
 const db = mongoose.connection;
 
 app.get('/project/:id', ProjectController.get)
+app.get('/project', ProjectController.getAll)
 app.post('/project', ProjectController.create)
 app.post('/project/:id', ProjectController.update)
 app.get('/project/:id/delete', ProjectController.remove)

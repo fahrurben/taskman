@@ -87,7 +87,7 @@ const search = async function (req, res) {
             query.status = {$eq: status}
         }
 
-        let tasks = await Task.find(query).skip(perPage * page).limit(perPage).sort('no').exec()
+        let tasks = await Task.find(query).populate('project').skip(perPage * page).limit(perPage).sort('no').exec()
 
         let totalTasks = await Task.find(query).countDocuments().exec()
         let totalPage = Math.ceil(totalTasks / perPage)
