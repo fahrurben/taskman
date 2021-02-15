@@ -21,6 +21,8 @@ mongoose.connect(process.env.DB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
+mongoose.connection.once('open', () => { console.log('MongoDB Connected'); });
+mongoose.connection.on('error', (err) => { console.log('MongoDB connection error: ', err); });
 const db = mongoose.connection;
 
 app.get('/project/:id', ProjectController.get)
