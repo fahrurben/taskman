@@ -29,6 +29,7 @@ const db = mongoose.connection;
 
 app.use(jwt({ secret: jwtSecret, algorithms: ['HS256']}).unless({
     path: [
+      '/',
       '/login',
       '/register',
     ]
